@@ -1,0 +1,9 @@
+{
+  "buildCommand": "npm run build --prefix client",
+  "outputDirectory": "client/dist",
+  "env": {
+    "VITE_API_URL": {
+      "description": "Backend API URL"
+    }
+  }
+}
