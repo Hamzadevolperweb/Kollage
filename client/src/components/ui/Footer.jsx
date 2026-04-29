@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 function Footer() {
   const [email, setEmail] = useState('');
@@ -191,3 +191,4 @@ function Footer() {
 }
 
 export default Footer;
+
