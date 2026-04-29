@@ -21,21 +21,34 @@ app.use(rateLimiter);
 app.use('/api/contact', contactRoutes);
 app.use('/api/videos', videosRoutes);
 
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'OK', timestamp: new Date().toISOString() });
+});
+
 app.use(errorHandler);
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+// MongoDB connection with graceful error handling
+if (process.env.MONGO_URI && process.env.MONGO_URI !== 'mongodb://localhost:27017/kollage-studio') {
+  mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
 
-mongoose.connection.on('connected', () => {
-  console.log('MongoDB connected');
-});
+  mongoose.connection.on('connected', () => {
+    console.log('✓ MongoDB connected');
+  });
 
-mongoose.connection.on('error', (error) => {
-  console.error('MongoDB connection error:', error);
-});
+  mongoose.connection.on('error', (error) => {
+    console.warn('⚠ MongoDB connection error (non-critical):', error.message);
+  });
+} else {
+  console.log('ℹ MongoDB disabled for local development (using mock mode)');
+}
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`✓ Server running on http://localhost:${PORT}`);
+  console.log(`✓ Frontend available at http://localhost:5173`);
+  console.log(`ℹ API endpoints ready at http://localhost:${PORT}/api`);
 });
+
