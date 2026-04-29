@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { videoIds } from '../data/videoData.js';
+import { videoData, videoIds } from '../data/videoData.js';
 import Parallax from 'react-parallax-tilt';
 
 const categories = [
@@ -23,9 +23,9 @@ function VideoProduction() {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [activeCategory, setActiveCategory] = useState('all');
 
-  const filteredVideos = videoIds.filter((_, index) => 
-    activeCategory === 'all' || index % 3 === 0
-  );
+  const filteredVideos = activeCategory === 'all'
+    ? videoData
+    : videoData.filter(video => video.category === activeCategory);
 
   return (
     <>
@@ -144,9 +144,9 @@ function VideoProduction() {
               transition={{ duration: 0.5 }}
               className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
             >
-              {filteredVideos.map((videoId, index) => (
+              {filteredVideos.map((video, index) => (
                 <Parallax
-                  key={videoId}
+                  key={video.id}
                   tiltMaxAngleX={8}
                   tiltMaxAngleY={8}
                   scale={1.02}
@@ -164,8 +164,8 @@ function VideoProduction() {
                   >
                     <div className="relative aspect-video overflow-hidden bg-black">
                       <img
-                        src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
-                        alt={`Video ${index + 1}`}
+                        src={`https://img.youtube.com/vi/${video.id}/maxresdefault.jpg`}
+                        alt={video.title}
                         className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 transition-opacity group-hover:opacity-40" />
@@ -181,22 +181,22 @@ function VideoProduction() {
                       
                       <div className="absolute bottom-0 left-0 right-0 p-4">
                         <span className="inline-block rounded-full bg-brand-purple/30 px-3 py-1 text-xs uppercase tracking-[0.2em] text-brand-purple backdrop-blur-sm">
-                          Project {index + 1}
+                          {video.category}
                         </span>
                       </div>
                     </div>
                     
                     <div className="p-5">
                       <h3 className="text-lg font-bold text-white transition-colors group-hover:text-brand-gold">
-                        Cinematic Production {index + 1}
+                        {video.title}
                       </h3>
                       <p className="mt-2 text-sm text-white/70 line-clamp-2">
-                        Capturing moments that matter with cutting-edge technology and artistic vision.
+                        Cinematic production showcasing our expertise in {video.category}.
                       </p>
                       <div className="mt-4 flex items-center justify-between text-xs text-white/50">
-                        <span>4K HDR</span>
+                        <span className="capitalize">{video.category}</span>
                         <span>•</span>
-                        <span>2024</span>
+                        <span>{video.year}</span>
                       </div>
                     </div>
                   </motion.div>
@@ -244,8 +244,12 @@ function VideoProduction() {
                   />
                 </div>
                 <div className="border-t border-white/10 bg-gradient-to-r from-brand-purple/20 to-brand-gold/20 p-6">
-                  <h3 className="text-2xl font-bold text-white">Playing: Cinematic Production</h3>
-                  <p className="mt-2 text-white/70">Experience the art of visual storytelling through our lens.</p>
+                  <h3 className="text-2xl font-bold text-white">
+                    Playing: {videoData.find(v => v.id === selectedVideo)?.title || 'Video'}
+                  </h3>
+                  <p className="mt-2 text-white/70">
+                    Experience the art of visual storytelling through our lens.
+                  </p>
                 </div>
               </div>
             </motion.div>
