@@ -1,0 +1,30 @@
+import express from 'express';
+
+const router = express.Router();
+
+const videos = [
+  '4T8oSv7IBlo',
+  'sH6UfUBvMvE',
+  'Cqcc878nVFo',
+  'eVUr-Wz5BuM',
+  'maM4ktgPOX0',
+  'p_qyjbY4NXw',
+  'fYepvyCngN8',
+  'n5Zu8RTH2tI',
+  's7jV--1tRRo',
+  'D3-1PZnWMQg',
+  'MmscO_txZKw',
+  'TX1VF3UNji8',
+  'Eqqk5VSA8Io',
+  'eE8GBW_lGlQ',
+  'PSuE_4vrKfY',
+  'O8WGYch6jaE',
+  'Rxylrlp6XM8',
+  'XjbcfuI74tc',
+];
+
+router.get('/', (req, res) => {
+  res.json({ videos });
+});
+
+export default router;

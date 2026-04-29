@@ -1,0 +1,22 @@
+{
+  "name": "kollage-studio-server",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.19.4",
+    "express-rate-limit": "^6.10.0",
+    "helmet": "^7.0.0",
+    "mongoose": "^7.5.0",
+    "nodemailer": "^6.9.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
